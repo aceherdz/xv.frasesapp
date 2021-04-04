@@ -1,0 +1,10 @@
+<div *ngIf="consultando" class="spinner-grow text-warning" role="status">
+  <span class="visually-hidden">Loading...</span>
+</div>
+<div *ngIf="!consultando">
+  <h1 class="cover-heading">{{repo | titlecase }}</h1>
+  <p class="lead">{{frase}}</p>
+  <p class="lead">
+    <a class="btn btn-lg btn-secondary" (click)="otraFrase()" >Otra Frase</a>
+  </p>
+</div>
