@@ -9,16 +9,16 @@ import { FrasesService } from 'src/app/services/frases.service';
 })
 export class ManRepoComponent implements OnInit {
 
-  repos: { repo: Repositories, validando?: boolean, up?: boolean }[] = [];
+  repos: { repo: Repositories, validando?: boolean, up?: boolean, validado:boolean }[] = [];
 
   constructor(private frasesService: FrasesService) {
 
-    this.repos.push({ repo: { idheroku: "frasesxavi-back", author: "xavi" }, validando: true });
-    this.repos.push({ repo: { idheroku: "frasesxavi-back", author: "xavi" } });
-    this.repos.push({ repo: { idheroku: "frasesxavi-back", author: "xavi" } });
-    this.repos.push({ repo: { idheroku: "frasesxavi-back", author: "xavi" } });
-    this.repos.push({ repo: { idheroku: "frasesxavi-back", author: "xavi" } });
-    this.repos.push({ repo: { idheroku: "frasesxavi-back", author: "xavi" } });
+    this.repos.push({ repo: { idheroku: "frasesxavi-back", author: "xavi" }, validado: false });
+    this.repos.push({ repo: { idheroku: "frasesxavi-back", author: "xavi" },validado: false });
+    this.repos.push({ repo: { idheroku: "frasesxavi-back", author: "xavi" } ,validado: false});
+    this.repos.push({ repo: { idheroku: "frasesxavi-back", author: "xavi" },validado: false });
+    this.repos.push({ repo: { idheroku: "frasesxavi-back", author: "xavi" } ,validado: false});
+    this.repos.push({ repo: { idheroku: "frasesxavi-back", author: "xavi" },validado: false });
 
   }
 
@@ -30,10 +30,14 @@ export class ManRepoComponent implements OnInit {
   }
   checkRepo(index) {
     this.repos[index].validando = true;
+    this.repos[index].validado = true;
     this.frasesService
       .ping(this.repos[index].repo.idheroku)
       .subscribe(estado => { 
         this.repos[index].up = estado; 
+        this.repos[index].validando = false;
+      },(error)=>{
+        this.repos[index].up = false; 
         this.repos[index].validando = false;
       });
 

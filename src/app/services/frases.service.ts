@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { FraseDTO } from 'src/app/interfaces/services';
 import { Observable } from 'rxjs';
@@ -21,8 +21,9 @@ export class FrasesService {
       ));
   }
 
-  public ping(alias: string):Observable<true> {
-    return this.http.get(this.baseUrl + '/ping').pipe(map((respuesta) => {
+  public ping(idheroku: string):Observable<true> {
+    const options = { headers : new HttpHeaders({ 'destino': idheroku})}
+    return this.http.get(this.baseUrl + '/ping',options).pipe(map((respuesta) => {
       return true;
     }, error => { return false; }));
   }
