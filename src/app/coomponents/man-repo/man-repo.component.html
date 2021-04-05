@@ -1,26 +1,54 @@
-<table class="table table-sm table-dark">
-    <caption>Lista de Repositorios</caption>
-    <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Autor</th>
-            <th scope="col">URL</th>
-            <th scope="col">Test</th>
-            <th scope="col"></th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let repo of repos; index as secuencia">
-            <th scope="row">{{ secuencia + 1}}</th>
-            <td>{{repo.repo.author}}</td>
-            <td>https://{{repo.repo.idheroku}}.heroku.com</td>
-            <td>
-                <div *ngIf="repo.validando" class="spinner-border spinner-border-sm" role="status"></div> <a class="btn btn-sm btn-info" *ngIf="!repo.validando" (click)="checkRepo(secuencia)">Test</a>
-            </td>
-            <td><img *ngIf="repo.validado" [src]="'assets/' + (repo.validando ? 'loader.svg': repo.up? 'exitoso.svg': 'fallido.svg')" class="rounded" alt="icoon"></td>
-        </tr>
-    </tbody>
-</table>
-<p class="lead">
-    <a class="btn  btn-primary" (click)="addRepo()">Adicionar Repositorio</a>
-</p>
+<div *ngIf="consultando" class="spinner-grow text-warning" role="status">
+    <span class="visually-hidden">Loading...</span>
+</div>
+<div *ngIf="!consultando">
+    <table class="table table-sm table-dark">
+        <caption>Lista de Repositorios</caption>
+        <thead>
+            <tr>
+
+                <th scope="col">#</th>
+                <th scope="col">Borrar</th>
+                <th scope="col">Autor</th>
+                <th scope="col">URL</th>
+                <th scope="col">Test</th>
+                <th scope="col">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let repo of repos; index as secuencia">
+
+                <th scope="row">{{ secuencia + 1}}</th>
+                <td><button type="button" class="btn btn-sm" (click)="borrar(repo.repo.idheroku)"><img src="assets/trash-2.svg" class="rounded" alt="borrar"> </button>
+
+                </td>
+                <td>{{repo.repo.author}}</td>
+                <td>https://{{repo.repo.idheroku}}.heroku.com</td>
+                <td>
+                    <div *ngIf="repo.validando" class="spinner-border spinner-border-sm" role="status"></div> <a class="btn btn-sm btn-info" *ngIf="!repo.validando" (click)="checkRepo(secuencia)">Test</a>
+                </td>
+                <td><img *ngIf="repo.validado" [src]="'assets/' + (repo.validando ? 'loader.svg': repo.up? 'exitoso.svg': 'fallido.svg')" class="rounded" alt="icoon"></td>
+            </tr>
+        </tbody>
+    </table>
+    <p class="lead">
+        <a class="btn  btn-primary" (click)="adicionar=true">Adicionar Repositorio</a>
+    </p>
+    <form *ngIf="adicionar" [formGroup]="checkoutForm" (ngSubmit)="addRepo()">
+
+        <div class="row">
+            <label for="name">
+          nombre app en heroku
+        </label>
+            <input id="idheroku" type="text" formControlName="idheroku" required>
+        </div>
+        <div class="row">
+            <label for="name">
+          Autor
+        </label>
+            <input id="author" type="text" formControlName="author" required>
+        </div>
+        <button class="button" type="submit" [disabled]="!checkoutForm.valid">adicionar</button>
+    </form>
+
+</div>

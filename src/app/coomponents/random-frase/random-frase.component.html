@@ -1,10 +1,21 @@
 <div *ngIf="consultando" class="spinner-grow text-warning" role="status">
-  <span class="visually-hidden">Loading...</span>
+    <span class="visually-hidden">Loading...</span>
 </div>
 <div *ngIf="!consultando">
-  <h1 class="cover-heading">{{repo | titlecase }}</h1>
-  <p class="lead">{{frase}}</p>
-  <p class="lead">
-    <a class="btn btn-lg btn-secondary" (click)="otraFrase()" >Otra Frase</a>
-  </p>
+    <div *ngIf="selected" class="frase">
+        <h1 class="cover-heading">Repositorio: {{ selected?.idheroku | titlecase }}</h1>
+        <p class="lead">{{frase.frase}} <br> <button type="button" class="btn btn-sm btn-outline-success"><img src="assets/thumbs-up.svg" class="rounded" alt="borrar" (click)="votar(1)"> </button>
+            <button type="button" class="btn btn-sm btn-outline-danger" (click)="votar(-1)"><img src="assets/thumbs-down.svg" class="rounded" alt="borrar"> </button>
+        </p>
+        <cite *ngIf="frase.votos > 0" title="Source Title">Cantidad votos {{ frase.votos }}</cite>
+        <p class="lead">
+            <a class="btn btn-lg btn-secondary" (click)="otraFrase()">Otra Frase</a>
+        </p>
+    </div>
+    <div class="container">
+        <div>
+            <h5>Repositorios</h5>
+        </div>
+        <button *ngFor="let repo of repos" type="button" class="btn btn-outline-light btn-sm" (click)="selected=repo; otraFrase()"> {{repo.author}}</button>
+    </div>
 </div>
