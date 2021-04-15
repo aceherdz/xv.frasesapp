@@ -1,1 +1,30 @@
-<p>add-frase works!</p>
+<div *ngIf="consultando" class="spinner-grow text-warning" role="status">
+    <span class="visually-hidden">Loading...</span>
+</div>
+<div *ngIf="!consultando">
+    <p class="fs-5">Repositorios</p>
+    <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+        <div *ngFor="let repo of repos">
+            <input type="radio" class="btn-check" [checked]="selected.author === repo.author" name="btnradio"
+                (id)="'btnradio1_' + repo.author" autocomplete="off">
+            <label class="btn btn-outline-light btn-sm" (click)="selected=repo" for="btnradio1">{{ repo.author
+                }}</label>
+        </div>
+    </div>
+    <div class="meform">
+        <form [formGroup]="checkoutForm" (ngSubmit)="addFrase()">
+
+            <div class="form-group">
+                <label for="exampleInputEmail1" class="form-label">Frase</label>
+                <div id="emailHelp" class="form-text">Inspirate!</div>
+                <textarea type="text" class="form-control" id="frase" formControlName="frase" required
+                    aria-describedby="emailHelp"></textarea>
+
+            </div>
+            <button class="btn btn-light" type="submit" [disabled]="!checkoutForm.valid || enviando">
+                <span *ngIf="enviando" class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                adicionar
+            </button>
+        </form>
+    </div>
+</div>

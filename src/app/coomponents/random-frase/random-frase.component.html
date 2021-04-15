@@ -3,11 +3,17 @@
 </div>
 <div *ngIf="!consultando">
     <div *ngIf="selected" class="frase">
-        <h1 class="cover-heading">Repositorio: {{ selected?.idheroku | titlecase }}</h1>
-        <p class="lead">{{frase.frase}} <br> <button type="button" class="btn btn-sm btn-outline-success"><img src="assets/thumbs-up.svg" class="rounded" alt="borrar" (click)="votar(1)"> </button>
-            <button type="button" class="btn btn-sm btn-outline-danger" (click)="votar(-1)"><img src="assets/thumbs-down.svg" class="rounded" alt="borrar"> </button>
+        <p class="fs-1">Repositorio: {{ selected?.author}} ({{ selected?.idheroku | titlecase }})</p>
+        <p class="lead">{{frase?.frase}} <br> <button type="button" [disabled]="upcargando"
+                class="btn btn-sm btn-outline-success">
+                <span *ngIf="upcargando" class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                <img *ngIf="!upcargando" src="assets/thumbs-up.svg" class="rounded" alt="borrar" (click)="votar(1)">
+            </button>
+            <button type="button" [disabled]="downcargando" class="btn btn-sm btn-outline-danger" (click)="votar(-1)">
+                <span *ngIf="downcargando" class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                <img *ngIf="!downcargando" src="assets/thumbs-down.svg" class="rounded" alt="borrar"> </button>
         </p>
-        <cite *ngIf="frase.votos > 0" title="Source Title">Cantidad votos {{ frase.votos }}</cite>
+        <cite *ngIf="frase?.votos > 0" title="Source Title">Cantidad votos {{ frase?.votos }}</cite>
         <p class="lead">
             <a class="btn btn-lg btn-secondary" (click)="otraFrase()">Otra Frase</a>
         </p>
@@ -16,6 +22,7 @@
         <div>
             <h5>Repositorios</h5>
         </div>
-        <button *ngFor="let repo of repos" type="button" class="btn btn-outline-light btn-sm" (click)="selected=repo; otraFrase()"> {{repo.author}}</button>
+        <button *ngFor="let repo of repos" type="button" class="btn btn-outline-light btn-sm"
+            style="padding-left: 20px;" (click)="selected=repo; otraFrase()">{{repo.author}}</button>
     </div>
 </div>

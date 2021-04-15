@@ -14,50 +14,58 @@ export class FrasesService {
 
   constructor(private http: HttpClient) { }
 
-  public getRandomQuote(idheroku:string) {
-    const options = { headers : new HttpHeaders({ 'destino': idheroku  })}
-    
+  public getRandomQuote(idheroku: string) {
+    const options = { headers: new HttpHeaders({ 'destino': idheroku }) }
+
     if (!environment.production) {
-      options.headers = options.headers.append("dev","true");
+      options.headers = options.headers.append("dev", "true");
     }
-    return this.http.get(this.baseUrl + '/frase',options).
+    return this.http.get(this.baseUrl + '/frase', options).
       pipe(map((respuesta: FraseDTO) => {
         return respuesta;
       }
       ));
   }
-  
-  public ping(idheroku: string):Observable<true> {
-    const options = { headers : new HttpHeaders({ 'destino': idheroku  })}
-    
+
+  public ping(idheroku: string): Observable<true> {
+    const options = { headers: new HttpHeaders({ 'destino': idheroku }) }
+
     if (!environment.production) {
-      options.headers = options.headers.append("dev","true");
+      options.headers = options.headers.append("dev", "true");
     }
-    return this.http.get(this.baseUrl + '/ping',options).pipe(map((respuesta) => {
+    return this.http.get(this.baseUrl + '/ping', options).pipe(map((respuesta) => {
       return true;
     }, () => { return false; }));
   }
 
-  public upvote(id:number,idheroku: string){
-    const options = { headers : new HttpHeaders({ 'destino': idheroku  })}
-    
+  public upvote(id: number, idheroku: string) {
+    const options = { headers: new HttpHeaders({ 'destino': idheroku }) }
+
     if (!environment.production) {
-      options.headers = options.headers.append("dev","true");
+      options.headers = options.headers.append("dev", "true");
     }
-    return this.http.put(this.baseUrl + '/voto/' + id,{},options).pipe(map((respuesta) => {
+    return this.http.put(this.baseUrl + '/voto/' + id, {}, options).pipe(map((respuesta) => {
       return true;
     }, () => { return false; }));
   }
 
-  public downvote(id:number,idheroku: string){
-    const options = { headers : new HttpHeaders({ 'destino': idheroku  }), body : {}}
-    
+  public downvote(id: number, idheroku: string) {
+    const options = { headers: new HttpHeaders({ 'destino': idheroku }), body: {} }
+
     if (!environment.production) {
-      options.headers = options.headers.append("dev","true");
+      options.headers = options.headers.append("dev", "true");
     }
-    return this.http.delete(this.baseUrl + '/voto/' + id,options).pipe(map((respuesta) => {
+    return this.http.delete(this.baseUrl + '/voto/' + id, options).pipe(map((respuesta) => {
       return true;
     }, () => { return false; }));
+  }
+
+  public addQuote(frase: string, idheroku: string) {
+    const options = { headers: new HttpHeaders({ 'destino': idheroku }) }
+    if (!environment.production) {
+      options.headers = options.headers.append("dev", "true");
+    }
+    return this.http.post(this.baseUrl + '/frase', { frase }, options);
   }
 
 

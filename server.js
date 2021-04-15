@@ -17,14 +17,14 @@ app.use(express.static(__dirname + '/dist/frases-app'));
 
 //app.use('/proxy', proxy('http://localhost:8081'));
 app.use('/proxy', proxy(gethost, {
-    filter: (req, res) => {
-        console.log("trae header?", req.headers.destino);
+    filter: (req, res) => {        
+        //!req.headers.destino && res.status(500).send('no envio el header del herokus.');
         return req.headers.destino;
     }
 }));
 
 function gethost(req, res) {
-    console.log(req.path);
+    console.log(req.path,req.headers.dev,req.body,req.headers.destino);
     return (req.headers.dev) ?
         'http://localhost:8081' :
         `https://${req.headers.destino}.herokuapp.com`;
@@ -32,12 +32,12 @@ function gethost(req, res) {
 }
 
 
-app.get('/', function(req, res) {
+app.get('/', function (req, res) {
     res.sendFile(path.join(__dirname + '/dist/ng-blog/index.html'));
 });
 
 //UTny42JKevGHaZvjyy8bqfJorwJv7Gv
-app.get('/api/repositories', function(req, res) {
+app.get('/api/repositories', function (req, res) {
     const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
     client.connect(err => {
         if (err) throw err;
@@ -51,7 +51,7 @@ app.get('/api/repositories', function(req, res) {
     });
 })
 
-app.post('/api/repository', function(req, res) {
+app.post('/api/repository', function (req, res) {
     console.log("adicionar", req.body);
     if (req.body && req.body.idheroku && req.body.author) {
         const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -74,7 +74,7 @@ app.post('/api/repository', function(req, res) {
     }
 })
 
-app.delete('/api/repository/:idheroku', function(req, res) {
+app.delete('/api/repository/:idheroku', function (req, res) {
     console.log("borrar", req.params);
 
     const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });

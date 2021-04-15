@@ -9,6 +9,8 @@ import { MenuComponent } from './coomponents/menu/menu.component';
 import { AddFraseComponent } from './coomponents/add-frase/add-frase.component';
 import { ManRepoComponent } from './coomponents/man-repo/man-repo.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
 
 
 @NgModule({
@@ -24,7 +26,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot( {timeOut: 10000,
+      positionClass: 'toast-bottom-full-width',
+      preventDuplicates: true,})
+
   ],
   providers: [],
   bootstrap: [AppComponent]
