@@ -5,17 +5,17 @@ import { ManRepoComponent } from './coomponents/man-repo/man-repo.component';
 import { RandomFraseComponent } from './coomponents/random-frase/random-frase.component';
 
 const routes: Routes = [
-  { path: '',   redirectTo: '/home', pathMatch: 'full' },
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: RandomFraseComponent },
   { path: 'add', component: AddFraseComponent },
   { path: 'repo', component: ManRepoComponent },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })],
+  imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy', useHash: true })],
   exports: [RouterModule]
 })
 export class AppRoutingModule {
 
-  
- }
+
+}
